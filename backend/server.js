@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const express = require('express')
+const mongoose = require('mongoose')
 const tarefaRoutes = require('./routes/tarefas')
 
 // app express
@@ -17,7 +18,16 @@ app.use((req, res, next) => {
 // rotas
 app.use('/api/tarefas', tarefaRoutes)
 
-// método listen para requests
-app.listen(process.env.PORTA, () => {
-  console.log('listen na porta', process.env.PORTA)
-})
+//conectar a database
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    // método listen para requests
+    app.listen(process.env.PORTA, () => {
+      console.log('conectado ao db & listening na porta', process.env.PORTA)
+    })
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+
+

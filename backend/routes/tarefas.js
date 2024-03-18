@@ -1,4 +1,5 @@
 const express = require('express')
+const Tarefa = require('../models/tarefaModelo')
 
 const router = express.Router()
 
@@ -13,8 +14,15 @@ router.get('/:id', (req, res) => {
 })
 
 //POST uma nova tarefa
-router.post('/', (req, res) => {
-  res.json({mssg: 'POST uma nova tarefa'})
+router.post('/', async (req, res) => {
+  const {titulo, tempo, pagslidas} = req.body
+
+  try {
+    const tarefa = await Tarefa.create({titulo, tempo, pagslidas})
+    res.status(200).json(tarefa)
+  } catch (error) {
+    res.status(400).json({error: error.message})
+  }
 })
 
 //DELETE uma tarefa
