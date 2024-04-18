@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import { useTarefasContext } from "../hooks/useTarefasContext"
 
 // componentes
 import DetalhesTarefa from '../components/DetalhesTarefa'
 import FormularioTarefa from "../components/FormularioTarefa"
 
 const Home = () => {
-  const [tarefas, setTarefas] = useState(null)
+  const {tarefas, dispatch} = useTarefasContext()
 
   useEffect(() => {
     const fetchTarefas = async () => {
@@ -13,7 +14,7 @@ const Home = () => {
       const json = await response.json()
 
       if (response.ok) {
-        setTarefas(json)
+        dispatch({type: 'SET_TAREFAS', payload: json})
       }
     }
 

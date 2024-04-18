@@ -1,6 +1,9 @@
 import { useState } from "react"
+import { useTarefasContext } from "../hooks/useTarefasContext"
 
 const FormularioTarefa = () => {
+  const { dispatch } = useTarefasContext()
+
   const [titulo, setTitulo] = useState('')
   const [tempo, setTempo] = useState('')
   const [pagslidas, setPagslidas] = useState('')
@@ -29,6 +32,7 @@ const FormularioTarefa = () => {
       setPagslidas('')
       setError(null)
       console.log('nova tarefa adicionada', json)
+      dispatch({type: 'CREATE_TAREFA', payload: json})
     }
   }
 
