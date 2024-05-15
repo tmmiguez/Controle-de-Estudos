@@ -12,6 +12,10 @@ export const tarefasReducer = (state, action) => {
       return {
         tarefas: [action.payload, ...state.tarefas]
       }
+    case 'DELETE_TAREFA':
+      return {
+        tarefas: state.tarefas.filter((t) => t._id !== action.payload._id)
+      }
     default:
       return state
   }
