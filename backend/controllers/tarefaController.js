@@ -30,6 +30,21 @@ const getTarefa = async (req, res) => {
 const criarTarefa = async (req, res) => {
   const {titulo, tempo, pagslidas} = req.body
 
+  let camposVazios = []
+
+  if(!titulo) {
+    camposVazios.push('titulo')
+  }
+  if(!tempo) {
+    camposVazios.push('tempo')
+  }
+  if(!pagslidas) {
+    camposVazios.push('pagslidas')
+  }
+  if(camposVazios.length > 0) {
+    return res.status(400).json({ error: 'Por favor preencha todos os campos', camposVazios })
+  }
+
   // documento para a db
   try {
     const tarefa = await Tarefa.create({titulo, tempo, pagslidas})

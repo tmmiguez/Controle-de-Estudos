@@ -8,6 +8,7 @@ const FormularioTarefa = () => {
   const [tempo, setTempo] = useState('')
   const [pagslidas, setPagslidas] = useState('')
   const [error, setError] = useState(null)
+  const [camposVazios, setCamposVazios] = useState([])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -25,12 +26,14 @@ const FormularioTarefa = () => {
 
     if (!response.ok) {
       setError(json.error)
+      setCamposVazios(json.camposVazios)
     }
     if (response.ok) {
       setTitulo('')
       setTempo('')
       setPagslidas('')
       setError(null)
+      setCamposVazios([])
       console.log('nova tarefa adicionada', json)
       dispatch({type: 'CREATE_TAREFA', payload: json})
     }
@@ -45,6 +48,7 @@ const FormularioTarefa = () => {
         type="text"
         onChange={(e) => setTitulo(e.target.value)}
         value={titulo}
+        className={camposVazios.includes('titulo') ? 'error' : ''}
         />
 
       <label>Tempo (min):</label>
@@ -52,6 +56,7 @@ const FormularioTarefa = () => {
         type="number"
         onChange={(e) => setTempo(e.target.value)}
         value={tempo}
+        className={camposVazios.includes('tempo') ? 'error' : ''}
         />
 
       <label>Páginas Lidas:</label>
@@ -59,6 +64,7 @@ const FormularioTarefa = () => {
         type="number"
         onChange={(e) => setPagslidas(e.target.value)}
         value={pagslidas}
+        className={camposVazios.includes('pagslidas') ? 'error' : ''}
         />
 
         <button>Adicionar Tarefa</button>
