@@ -19,7 +19,7 @@ const Home = () => {
     }
 
     fetchTarefas()
-  }, [])
+  }, [dispatch])
 
   return (
     <div className="home">

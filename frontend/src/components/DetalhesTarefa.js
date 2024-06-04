@@ -1,4 +1,6 @@
 import { useTarefasContext } from "../hooks/useTarefasContext"
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import ptBR from 'date-fns/locale/pt-BR'
 
 const DetalhesTarefa = ({ tarefa }) => {
   const { dispatch } = useTarefasContext()
@@ -19,8 +21,8 @@ const DetalhesTarefa = ({ tarefa }) => {
       <h4>{tarefa.titulo}</h4>
       <p><strong>Tempo (min): </strong>{tarefa.tempo}</p>
       <p><strong>Páginas Lidas: </strong>{tarefa.pagslidas}</p>
-      <p>{tarefa.createdAt}</p>
-      <span onClick={handleClick}>apagar</span>
+      <p>{formatDistanceToNow(new Date(tarefa.createdAt), { addSuffix: true, locale: ptBR})}</p>
+      <span className="material-symbols-outlined" onClick={handleClick}>delete_forever</span>
     </div>
   )
 }
