@@ -6,8 +6,11 @@ const {
   deleteTarefa,
   updateTarefa
 } = require('../controllers/tarefaController')
+const requireAuth = require('../middleware/requireAuth')
 
 const router = express.Router()
+
+router.use(requireAuth)
 
 //GET de todas as tarefas
 router.get('/', getTarefas)

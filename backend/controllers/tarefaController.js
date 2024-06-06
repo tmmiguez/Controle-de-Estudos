@@ -3,7 +3,9 @@ const mongoose = require('mongoose')
 
 // GET todas as tarefas
 const  getTarefas = async (req, res) => {
-  const tarefas = await Tarefa.find({}).sort({createdAt: -1})
+  const user_id = req.user._id
+  
+  const tarefas = await Tarefa.find({ user_id }).sort({createdAt: -1})
 
   res.status(200).json(tarefas)
 }
@@ -47,7 +49,8 @@ const criarTarefa = async (req, res) => {
 
   // documento para a db
   try {
-    const tarefa = await Tarefa.create({titulo, tempo, pagslidas})
+    const user_id = req.user._id
+    const tarefa = await Tarefa.create({titulo, tempo, pagslidas, user_id})
     res.status(200).json(tarefa)
   } catch (error) {
     res.status(400).json({error: error.message})

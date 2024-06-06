@@ -1,13 +1,22 @@
 import { useTarefasContext } from "../hooks/useTarefasContext"
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import ptBR from 'date-fns/locale/pt-BR'
+import { useAuthContext } from "../hooks/useAuthContext"
 
 const DetalhesTarefa = ({ tarefa }) => {
   const { dispatch } = useTarefasContext()
+  const { user } = useAuthContext()
 
   const  handleClick = async () => {
+    if (!user) {
+      return
+    }
+
     const response = await fetch('/api/tarefas/' + tarefa._id, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
     })
     const json = await response.json()
 

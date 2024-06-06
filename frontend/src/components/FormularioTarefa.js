@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { useTarefasContext } from "../hooks/useTarefasContext"
+import { useAuthContext } from "../hooks/useAuthContext"
 
 const FormularioTarefa = () => {
   const { dispatch } = useTarefasContext()
+  const { user } = useAuthContext()
 
   const [titulo, setTitulo] = useState('')
   const [tempo, setTempo] = useState('')
@@ -13,13 +15,19 @@ const FormularioTarefa = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (!user) {
+      setError('Você deve estar logado')
+      return
+    }
+
     const tarefa = {titulo, tempo, pagslidas}
 
     const response = await fetch('/api/tarefas', {
       method: 'POST',
       body: JSON.stringify(tarefa),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`
       }
     })
     const json = await response.json()
